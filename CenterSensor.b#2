@@ -533,8 +533,7 @@ design rules under a new name.</description>
 <contactref element="R1" pad="2"/>
 <contactref element="U$2" pad="K"/>
 <wire x1="9.8425" y1="13.335" x2="9.8425" y2="16.825" width="0.254" layer="1"/>
-<wire x1="9.84166875" y1="16.82583125" x2="9.84" y2="17.4625" width="0.254" layer="1"/>
-<wire x1="9.8425" y1="16.825" x2="9.84166875" y2="16.82583125" width="0.254" layer="1"/>
+<wire x1="9.8425" y1="16.825" x2="9.84" y2="17.4625" width="0.254" layer="1"/>
 </signal>
 </signals>
 <mfgpreviewcolors>
