@@ -37,29 +37,100 @@ long intersectionAheadTimeSet = 0;
 int intersectionDelay = 3000;
 
 void setup() {
+  //Alle pins instellen als input pins
   pinMode(A1, INPUT);
   pinMode(A2, INPUT);
   pinMode(A3, INPUT);
   pinMode(A4, INPUT);
   pinMode(A5, INPUT);
-  
+
+  //Verbinding maken met de motoren
   LeftMotor.attach(11);
   RightMotor.attach(10);
-  
+
+  //Seriële communicatie starten en het welkom bericht printen
   Serial.begin(9600);
   printWelcome();
 
+  //Allebei de motoren hun stopPulse geven zodat ze stil staan.
   LeftMotor.write(stopPulse);
   RightMotor.write(stopPulse);
 }
 void loop() {
 
-  bool sensor1Black = !(analogRead(A1) < 600); //rechtsvoor
-  bool sensor2Black = !(analogRead(A2) < 600); //linksvoor
-  bool sensor3Black = (analogRead(A3) < 30);
-  bool sensor4Black = (analogRead(A4) < 30);
-  bool sensor5Black = (analogRead(A5) < 30);
+  //Alle waarden van de vijf sensoren inlezen.
+  bool sensor1Black = (analogRead(A1) < 400); //rechtsvoor
+  bool sensor2Black = (analogRead(A2) < 400); //linksvoor
+  bool sensor3Black = (analogRead(A3) < 400); //midden
+  bool sensor4Black = (analogRead(A4) < 400); //linksachter
+  bool sensor5Black = (analogRead(A5) < 400); //rechtsachter
 
+  /*
+   * We werken met een status systeem.
+   * De robot bevind zich in een bepaalde status waar in hij dingen doet. Deze status is aangegeven door de myStatus char.
+   * 
+   * De robot start in status I (init). Zodra hij in het midden een lijn detecteert, gaat hij vooruit rijden en zet hij zijn status naar F (forward)
+   * In F kijkt hij of hij van de lijn afwijkt, dit doet hij door naar sensor 3 en 4 te kijken. Zodra sensor4 niet meer zwart detecteert, gaat hij naar rechts draaien en in de status R (Right)
+   * Hetzelfde geldt voor sensor 3, dan gaat hij naar links.
+   * 
+   * De intersectionAhead boolean is bedoeld om zijn sensoren te negeren als hij op een kruising afrijd. Zie hieronder voor meer details.
+   */
+  switch (myStatus)
+  {
+    case 'I':
+      //Kijken of we een lijn detecteren.
+      if(!sensor3Black && sensor4Black && sensor5Black)
+      {
+        //Naar voren rijden
+        goForward();
+        
+        //Status veranderen
+        changeStatus('F');
+      }
+    break;
+
+    case 'F':
+      if(!sensor4Black && !sensor3Black && !intersectionAhead)
+      {
+        //Naar rechts om zijn eigen as
+        turnRightOnAxis();
+        changeStatus('R');
+      }
+      if(!sensor5Black && !sensor3Black && !intersectionAhead)
+      {
+        //Naar links om zijn eigen as
+        turnLeftOnAxis();
+        changeStatus('L');
+      }
+      if(intersectionAhead)
+      {
+        //Er komt een kruising aan, negeer je sensoren en rijd gewoon rechtdoor
+        goForward();
+      }
+    break;
+
+    case 'L':
+      //Kijken of je weer boven de lijn zit
+      if(!sensor3Black && sensor5Black && sensor4Black)
+      {
+        //Weer vooruit rijden
+        goForward();
+        changeStatus('F');
+      }
+    break;
+
+    case 'R':
+      //Kijken of je weer boven de lijn zit
+      if(!sensor3Black && sensor4Black && sensor5Black)
+      {
+        //Weer vooruit rijden
+        goForward();
+        changeStatus('F');
+      }
+    break;
+  }
+
+  //Detecteren of er een kruising aankomt
   if((leftForeValue > 100 || rightForeValue > 100) && !intersectionAhead && !intersectionComing)
   {
     intersectionComing = true;
@@ -74,54 +145,12 @@ void loop() {
   {
     intersectionAhead = false;
   }
-  
-  switch (myStatus)
-  {
-    case 'I':
-      if(!sensor3Black && sensor4Black && sensor5Black)
-      {
-        goForward();
-        changeStatus('F');
-      }
-    break;
 
-    case 'F':
-      if(!sensor4Black && !sensor3Black && !intersectionAhead)
-      {
-        //Naar rechts.
-        turnRightOnAxis();
-        changeStatus('R');
-      }
-      if(!sensor5Black && !sensor3Black && !intersectionAhead)
-      {
-        //Naar links
-        turnLeftOnAxis();
-        changeStatus('L');
-      }
-      if(intersectionAhead)
-      {
-        goForward();
-      }
-    break;
-
-    case 'L':
-      if(!sensor3Black && sensor5Black && sensor4Black)
-      {
-        goForward();
-        changeStatus('F');
-      }
-    break;
-
-    case 'R':
-      if(!sensor3Black && sensor4Black && sensor5Black)
-      {
-        goForward();
-        changeStatus('F');
-      }
-    break;
-  }
-
-  //------------------------------------
+  /*
+   * Afvlakken van de ruwe sensordata zodat de robot niet heftig en abrupt reageert
+   * Wordt NOG niet gebruikt voor het volgen van de lijn, moet ik nog doen.
+   * Wordt WEL gebruikt voor het detecteren van een kruising. Zie code hierboven.
+   */
 
   if(sensor1Black && !(rightForeValue >= foreLoopSize))
     rightForeValue++;
@@ -171,27 +200,6 @@ void goForward()
   setMoveSpeeds();
 }
 
-void stopMoving()
-{
-  leftPulse = stopPulse;
-  rightPulse = stopPulse;
-  setMoveSpeeds();
-}
-
-void goRight(int power)
-{
-  rightPulse = rightForwardPulse + power;
-  leftPulse = leftForwardPulse;
-  setMoveSpeeds();
-}
-
-void goLeft(int power)
-{
-  rightPulse = rightForwardPulse;
-  leftPulse = leftForwardPulse - power;
-  setMoveSpeeds();
-}
-
 void turnRightOnAxis()
 {
   rightPulse = 1520;
@@ -210,11 +218,6 @@ void setMoveSpeeds()
 {
   LeftMotor.write(leftPulse);
   RightMotor.write(rightPulse);
-}
-
-int dif(int a, int b)
-{
-  return abs(a - b);
 }
 
 void printWelcome()
