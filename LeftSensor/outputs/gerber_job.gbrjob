@@ -1,0 +1,13 @@
+G04 Gerber job file.*
+%TF.FileFunction,JobInfo*%
+%TF.GenerationSoftware,Autodesk,EAGLE,9.1.3*%
+%TF.CreationDate,2018-10-10T18:52:17Z*%
+%TF.Part,Single*%
+%MOMM*%
+%TJ.B_Owner,Luca Panjer <lucarobertpanjer@gmail.com>*%
+%TJ.B_ID,LeftSensor*%
+%TJ.B_LayerNum,2*%
+%TJ.B_Thickness,1.570000*%
+%TJ.B_Size_X,14.585000*%
+%TJ.B_Size_Y,22.055000*%
+M02*
