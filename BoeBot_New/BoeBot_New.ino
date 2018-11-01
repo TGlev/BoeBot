@@ -148,8 +148,8 @@ void loop() {
 
   /*
    * Afvlakken van de ruwe sensordata zodat de robot niet heftig en abrupt reageert
-   * Wordt NOG niet gebruikt voor het volgen van de lijn, moet ik nog doen.
-   * Wordt WEL gebruikt voor het detecteren van een kruising. Zie code hierboven.
+   * Wordt gebruikt voor het volgen van de lijn
+   * Wordt gebruikt voor het detecteren van een kruising. Zie code hierboven.
    */
 
   if(sensor1Black && !(rightForeValue >= foreLoopSize))
