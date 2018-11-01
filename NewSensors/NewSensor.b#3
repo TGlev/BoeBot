@@ -140,10 +140,10 @@
 </layers>
 <board>
 <plain>
-<wire x1="-0.3175" y1="0" x2="24.2075" y2="0" width="0" layer="20"/>
-<wire x1="24.2075" y1="0" x2="24.2075" y2="16" width="0" layer="20"/>
-<wire x1="24.2075" y1="16" x2="-0.3175" y2="16" width="0" layer="20"/>
-<wire x1="-0.3175" y1="16" x2="-0.3175" y2="0" width="0" layer="20"/>
+<wire x1="0" y1="0" x2="23.89" y2="0" width="0" layer="20"/>
+<wire x1="23.89" y1="0" x2="23.89" y2="16" width="0" layer="20"/>
+<wire x1="23.89" y1="16" x2="0" y2="16" width="0" layer="20"/>
+<wire x1="0" y1="16" x2="0" y2="0" width="0" layer="20"/>
 <hole x="2.2225" y="14.0175" drill="3.2"/>
 </plain>
 <libraries>

@@ -140,11 +140,12 @@
 </layers>
 <board>
 <plain>
-<wire x1="-0.3175" y1="0" x2="24.2075" y2="0" width="0" layer="20"/>
-<wire x1="24.2075" y1="0" x2="24.2075" y2="16" width="0" layer="20"/>
-<wire x1="24.2075" y1="16" x2="-0.3175" y2="16" width="0" layer="20"/>
-<wire x1="-0.3175" y1="16" x2="-0.3175" y2="0" width="0" layer="20"/>
+<wire x1="0" y1="0" x2="28.335" y2="0" width="0" layer="20"/>
+<wire x1="28.335" y1="0" x2="28.335" y2="16" width="0" layer="20"/>
+<wire x1="28.335" y1="16" x2="0" y2="16" width="0" layer="20"/>
+<wire x1="0" y1="16" x2="0" y2="0" width="0" layer="20"/>
 <hole x="2.2225" y="14.0175" drill="3.2"/>
+<rectangle x1="-11.43" y1="16.8275" x2="2.57" y2="23.8275" layer="1"/>
 </plain>
 <libraries>
 <library name="wirepad" urn="urn:adsk.eagle:library:412">
@@ -502,11 +503,11 @@ design rules under a new name.</description>
 <contactref element="X1" pad="E"/>
 <wire x1="6.67" y1="13.335" x2="6.67" y2="8.8925" width="0.508" layer="1"/>
 <wire x1="6.67" y1="8.8925" x2="6.6675" y2="8.89" width="0.508" layer="1"/>
-<wire x1="17.4625" y1="1.5875" x2="22.5425" y2="1.5875" width="0.508" layer="1"/>
-<wire x1="22.5425" y1="1.5875" x2="22.86" y2="1.905" width="0.508" layer="1"/>
-<wire x1="22.86" y1="1.905" x2="22.86" y2="13.0175" width="0.508" layer="1"/>
-<wire x1="22.86" y1="13.0175" x2="22.5425" y2="13.335" width="0.508" layer="1"/>
-<wire x1="22.5425" y1="13.335" x2="15.555" y2="13.335" width="0.508" layer="1"/>
+<wire x1="17.4625" y1="1.5875" x2="23.1775" y2="1.5875" width="0.508" layer="1"/>
+<wire x1="23.1775" y1="1.5875" x2="23.495" y2="1.905" width="0.508" layer="1"/>
+<wire x1="23.495" y1="1.905" x2="23.495" y2="13.0175" width="0.508" layer="1"/>
+<wire x1="23.495" y1="13.0175" x2="23.1775" y2="13.335" width="0.508" layer="1"/>
+<wire x1="23.1775" y1="13.335" x2="15.555" y2="13.335" width="0.508" layer="1"/>
 <wire x1="17.4625" y1="1.5875" x2="17.4625" y2="6.0325" width="0.508" layer="1"/>
 <wire x1="17.4625" y1="6.0325" x2="17.145" y2="6.35" width="0.508" layer="1"/>
 <wire x1="17.145" y1="6.35" x2="16.1925" y2="6.35" width="0.508" layer="1"/>
